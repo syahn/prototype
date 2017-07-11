@@ -236,6 +236,7 @@
                     </div>
                 </dd>
                 <dt class="_page_orientation_subject" style="display: block;">용지 방향</dt>
+
                 <dd class="paper _page_orientation" style="display: block;">
                     <ul>
                         <li>
@@ -243,9 +244,11 @@
                         </li>
                         <li>
                             <p><input type="radio" id="rdo2_1" name="rdo0" class="radio01 _portrait" onclick="checkBox();"> <label for="rdo2_1">세로</label></p>
+
                         </li>
                     </ul>
                 </dd>
+
                 <dt>인쇄 방식</dt>
                 <dd class="_print_time_dd type">
                     <div class="wrap">
@@ -329,14 +332,11 @@
         <div id="footer" class="_footer">
 
             <!--<button  th:onclick="'printPage(\'' + '/month_'+ ${month} + '\');'" type="button" class="_print normal">인쇄하기</button>-->
-            <button id="button-print" type="button" class="_print normal">인쇄하기</button>
+            <button id="button-print" type="button" class="_print normal" name="type" value="print">인쇄하기</button>
 
-            <script th:inline="javascript">
-
-            </script>
 
             <!--저장 버튼 - 경로 변경해주는 js 로직 필요!-->
-            <button type="button" onclick="save()">저장</button>
+            <button type="button" onclick="save()" name="type" value="save">저장</button>
 
             <script language="JavaScript">
                 var __sFlashVars = "naverme=1";
