@@ -1,17 +1,43 @@
 
+
+var startOption = document.getElementById("monthSelect");
+var endOption = document.getElementById("monthSelect2");
+
+var startMonth = startOption.options[startOption.selectedIndex].value;
+var endMonth = endOption.options[endOption.selectedIndex].value;
+
+
 $(document).ready(function() {
-    // $("._print").click(function() {
-    //     window.print();
-    // });
 
     $("._close").click(function() {
         window.close();
     })
 
-    // $("._print .normal").click(function(){
-    //     printPage('externalPage.html');
-    // })
+    $("#button-print").click(function (){
+        startMonth = startOption.options[startOption.selectedIndex].value;
+        endMonth = endOption.options[endOption.selectedIndex].value;
+        console.log(startMonth, endMonth, "hello");
+        printPage('/tempPdf/month_result' + startMonth + 'to' + endMonth +  '.pdf');
+    })
+
 });
+
+
+function save() {
+
+    //시작 월과 끝 월 파라미터 보내줌
+    startMonth = startOption.options[startOption.selectedIndex].value;
+    endMonth = endOption.options[endOption.selectedIndex].value;
+
+    //가로, 세로 설정
+    var orientation = 0; // 세로
+    var landscape = document.getElementById("rdo2_0").checked;
+    if(landscape){
+        orientation = 1;//가로
+    }
+
+    location.href = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation;
+}
 
 
 function closePrint () {
