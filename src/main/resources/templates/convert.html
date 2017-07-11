@@ -17,17 +17,29 @@
         // 서버 임시 pdf 변환 파일 불러온 후 save box 팝업
         function save() {
 
-                //month parameter 적용
-                //var month =([[${month}]]);
+            /*<![CDATA[*/
 
-                var dataURI = '/tempPdf/month_result.pdf';
-                var fileName = 'Calendar';
+//            var dataURI =
+//                '/tempPdf/month_result' +
+//                [[${startMonth}]] +
+//                'to' +
+//                [[${endMonth}]] +
+////                'in' +
+////                [[${orientation}]] +
+//                '.pdf';
+            var dataURI = '/tempPdf/month_result.pdf';
 
-                var link = document.getElementById("saveLink");
+            var fileName = 'Calendar';
 
-                link.setAttribute("href", dataURI);
-                link.setAttribute("download", fileName);
-                link.click();
+            var link = document.getElementById("saveLink");
+
+            link.setAttribute("href", dataURI);
+            link.setAttribute("download", fileName);
+            link.click();
+
+            /*]]>*/
+
+
 
         }
 

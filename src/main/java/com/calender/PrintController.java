@@ -69,7 +69,9 @@ public class PrintController {
 
         int start = Integer.parseInt(startMonth);//시작달
         int end = Integer.parseInt(endMonth);//끝달
+        ;
 
+        System.out.print(Integer.toString(start) + Integer.toString(end));
         //converting html to pdf - by url
         try {
             converter.makeAPdf(start,end,orientation);
