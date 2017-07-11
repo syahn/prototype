@@ -40,6 +40,30 @@ public class PrintConverter {
         }
     }
 
+    //세로 방향 이미지 생성메소드
+    public void createImageVetical(PrintRequest request, HttpServletResponse response) {
+        List<String> pdfCommand = Arrays.asList(
+                "wkhtmltoimage",
+                "--height",
+                "1000",
+                "--width",
+                "700",
+                request.getIn(),
+                request.getOut()
+        );
+        ProcessBuilder pb = new ProcessBuilder(pdfCommand);
+        Process pdfProcess;
+
+        try {
+            pdfProcess = pb.start();
+            waitForProcessInCurrentThread(pdfProcess);
+
+        } catch (IOException ex) {
+            LOG.error("Could not create a PDF file because of an error occurred: ", ex);
+            throw new RuntimeException("PDF generation failed");
+        }
+    }
+
     public void createPdf(PrintRequest request, HttpServletResponse response) {
         List<String> pdfCommand = Arrays.asList(
                 "wkhtmltoimage",
@@ -164,14 +188,12 @@ public class PrintConverter {
         Process wkhtml; // Create uninitialized process
         String command = null;
 
-
-        //%s에 열거하여 쓰기
         String extendedUrl = "wkhtmltopdf" +
             (orientation == 1 ? " -O landscape " : " ") +
             "%s C:/Users/NAVER/Desktop/prototype/target/classes/static/tempPdf/month_result.pdf";
 
         command = String.format(extendedUrl, temp);
-        System.out.println("ori" + Integer.toString(orientation) + command);
+
 
         wkhtml = Runtime.getRuntime().exec(command); // Start process
         IOUtils.copy(wkhtml.getErrorStream(), System.err); // Print output to console

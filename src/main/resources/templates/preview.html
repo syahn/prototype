@@ -42,6 +42,18 @@
 
     <script th:inline="javascript">
 
+        //미리보기 세로방향, 가로방향 보여주기
+        // 수정중
+        function checkBox() {
+            var orientation = document.getElementById("rd2_1").checked;
+
+            if(orientation){
+                document.getElementById("previewImage").src = "/images/sample_vertical.png";
+            }
+            else{
+                document.getElementById("previewImage").src = "/images/sample"+ [[${month}]] + ".png";
+            }
+        }
 
 
     </script>
@@ -73,7 +85,7 @@
         <div id="content" class="_content">
             <div class="print_type">
                 <p class="_preview preview">
-                    <img th:src="'/images/sample' + ${month} + '.png'" src="/images/sample.png" style="width: 343px; height: 252px;" alt="월간 인쇄 미리보기" title="월간 인쇄 미리보기"></p>
+                    <img id="previewImage" th:src="'/images/sample' + ${month} + '.png'" src="/images/sample.png" style="width: 343px; height: 252px;" alt="월간 인쇄 미리보기" title="월간 인쇄 미리보기"></p>
 
                 <p class="_preview_desc desc" style="display: none;"><em><strong>가로 설정</strong>에 최적화된 스타일 입니다. 용지방향은 가로로 출력됩니다.</em></p>
                 <p class="_preview_desc2 desc2" style="display: none"><strong>세로 설정</strong>에 최적화된 스타일 입니다. 용지방향은 세로로 출력됩니다. 일정/기념일/할 일의내용이 길 경우 인쇄물의 기간 영역에 모두 표시되지 못하고 잘려 보일 수 있습니다.</p>
@@ -228,16 +240,11 @@
                 <dd class="paper _page_orientation" style="display: block;">
                     <ul>
                         <li>
-                            <p>
-                                <input type="radio" id="rdo2_0" name="rdo0" class="radio01 _landscape" checked="">
-                                <label for="rdo2_0">가로</label>
-                            </p>
+                            <p><input type="radio" id="rdo2_0" name="rdo0" class="radio01 _landscape" checked="" onclick="checkBox();"> <label for="rdo2_0">가로</label></p>
                         </li>
                         <li>
-                            <p>
-                                <input type="radio" id="rdo2_1" name="rdo0" class="radio01 _portrait">
-                                <label for="rdo2_1">세로</label>
-                            </p>
+                            <p><input type="radio" id="rdo2_1" name="rdo0" class="radio01 _portrait" onclick="checkBox();"> <label for="rdo2_1">세로</label></p>
+
                         </li>
                     </ul>
                 </dd>

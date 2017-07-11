@@ -6,7 +6,6 @@ var startMonth = startOption.options[startOption.selectedIndex].value;
 var endMonth = endOption.options[endOption.selectedIndex].value;
 
 
-
 $(document).ready(function() {
 
     $("._close").click(function() {
