@@ -1,7 +1,7 @@
 
 
-var startOption = document.getElementById("monthSelect");
-var endOption = document.getElementById("monthSelect2");
+var startOption = document.getElementById("start_month");
+var endOption = document.getElementById("end_month");
 
 var startMonth = startOption.options[startOption.selectedIndex].value;
 var endMonth = endOption.options[endOption.selectedIndex].value;
@@ -28,7 +28,7 @@ $(document).ready(function() {
 
 });
 
-
+//convert url request
 function save() {
 
     //시작 월과 끝 월 파라미터 보내줌
@@ -44,6 +44,22 @@ function save() {
 
     location.href = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation;
 }
+
+//총 페이지 수 표시
+function change() {
+
+    startMonth = startOption.options[startOption.selectedIndex].value;
+    endMonth = endOption.options[endOption.selectedIndex].value;
+    var pageNum = document.getElementById("pageNum");
+
+    if(startOption.selectedIndex != null){
+        var num = parseInt(endMonth)-parseInt(startMonth)+1;
+        pageNum.innerHTML = " 총 페이지 개수: "+num.toString();
+        pageNum.style.display="inline";
+    }
+
+}
+
 
 
 function closePrint () {
