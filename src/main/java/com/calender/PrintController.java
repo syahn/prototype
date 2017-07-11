@@ -60,28 +60,31 @@ public class PrintController {
     }
 
     //converter for pdf save
-    @RequestMapping(value = "/convert/{startMonth}/{endMonth}/{orientation}")
-    public String convert(@PathVariable("startMonth") String startMonth, @PathVariable("endMonth") String endMonth, @PathVariable("orientation") int orientation, Model model){
-
+    @RequestMapping(value = "/convert/{startMonth}/{endMonth}/{orientation}/{type}")
+    public String convert(
+            @PathVariable("startMonth") String startMonth,
+            @PathVariable("endMonth") String endMonth,
+            @PathVariable("orientation") int orientation,
+            @PathVariable("type") String type,
+            Model model
+    ){
         model.addAttribute("startMonth",startMonth);
         model.addAttribute("endMonth",endMonth);
         model.addAttribute("orientation",orientation);
 
         int start = Integer.parseInt(startMonth);//시작달
         int end = Integer.parseInt(endMonth);//끝달
-        ;
 
-        System.out.print(Integer.toString(start) + Integer.toString(end));
         //converting html to pdf - by url
         try {
-            converter.makeAPdf(start,end,orientation);
+            converter.makeAPdf(start, end, orientation);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return "/convert";
+        return type.equals("print") ? "print" : "convert";
     }
 }
 

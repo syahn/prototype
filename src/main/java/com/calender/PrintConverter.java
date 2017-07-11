@@ -165,31 +165,13 @@ public class PrintConverter {
         String command = null;
 
 
-
         //%s에 열거하여 쓰기
-//        String extendedUrl = "wkhtmltopdf" +
-//            (orientation == 1 ? " -O landscape " : " ") +
-//                "%s C:/Users/NAVER/Desktop/prototype/target/classes/static/tempPdf/month_result" +
-//                Integer.toString(s) +
-//                "to" +
-//                Integer.toString(e) +
-//                ".pdf";
-
         String extendedUrl = "wkhtmltopdf" +
             (orientation == 1 ? " -O landscape " : " ") +
             "%s C:/Users/NAVER/Desktop/prototype/target/classes/static/tempPdf/month_result.pdf";
 
         command = String.format(extendedUrl, temp);
-        System.out.println(command);
-
-
-//
-//        if(orientation==1){
-//             // Desired command
-//        }
-//        else if(orientation==0){
-//            command = String.format("wkhtmltopdf %s C:/Users/NAVER/Desktop/prototype/target/classes/static/tempPdf/month_result.pdf",temp); // Desired command
-//        }
+        System.out.println("ori" + Integer.toString(orientation) + command);
 
         wkhtml = Runtime.getRuntime().exec(command); // Start process
         IOUtils.copy(wkhtml.getErrorStream(), System.err); // Print output to console
