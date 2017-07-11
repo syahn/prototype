@@ -1,10 +1,10 @@
 
-
 var startOption = document.getElementById("start_month");
 var endOption = document.getElementById("end_month");
 
 var startMonth = startOption.options[startOption.selectedIndex].value;
 var endMonth = endOption.options[endOption.selectedIndex].value;
+
 
 
 $(document).ready(function() {
@@ -13,19 +13,14 @@ $(document).ready(function() {
         window.close();
     })
 
-
-    // $("._print .normal").click(function(){
-    //     printPage('externalPage.html');
-    // })
-
     $("#button-print").click(function (){
         startMonth = startOption.options[startOption.selectedIndex].value;
         endMonth = endOption.options[endOption.selectedIndex].value;
-        console.log(startMonth, endMonth, "hello");
-        printPage('/tempPdf/month_result' + startMonth + 'to' + endMonth +  '.pdf');
+        var landscape = document.getElementById("rdo2_0").checked;
+        var orientation = landscape ? 1 : 0;
+
+        location.href = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation + "/print";
     })
-
-
 });
 
 //convert url request
@@ -35,14 +30,12 @@ function save() {
     startMonth = startOption.options[startOption.selectedIndex].value;
     endMonth = endOption.options[endOption.selectedIndex].value;
 
-    //가로, 세로 설정
-    var orientation = 0; // 세로
+    //인쇄 방향 설정
     var landscape = document.getElementById("rdo2_0").checked;
-    if(landscape){
-        orientation = 1;//가로
-    }
+    var orientation = landscape ? 1 : 0;
 
-    location.href = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation;
+    location.href = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation + "/save";
+
 }
 
 //총 페이지 수 표시
