@@ -8,6 +8,7 @@ $(document).ready(function() {
         window.close();
     })
 
+
     // $("._print .normal").click(function(){
     //     printPage('externalPage.html');
     // })

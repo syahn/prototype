@@ -22,7 +22,7 @@
     <title>네이버 캘린더</title>
 
     <link type="text/css" rel="stylesheet" href="css/preview.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
     <style>
         .fog {
@@ -41,14 +41,14 @@
 
     <script th:inline="javascript">
 
+
         // convert url request
         function save() {
 
             //시작 월과 끝 월 파라미터 보내줌
             var startOption = document.getElementById("monthSelect");
-            var startMonth = startOption.options[startOption.selectedIndex].value;
-
             var endOption = document.getElementById("monthSelect2");
+            var startMonth = startOption.options[startOption.selectedIndex].value;
             var endMonth = endOption.options[endOption.selectedIndex].value;
 
             //가로, 세로 설정
@@ -61,6 +61,28 @@
             location.href = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation;
 
         }
+
+        //총 페이지 수 표시
+        function change() {
+
+            var startOption = document.getElementById("monthSelect");
+            var endOption = document.getElementById("monthSelect2");
+            var startMonth = startOption.options[startOption.selectedIndex].value;
+            var endMonth = endOption.options[endOption.selectedIndex].value;
+            var pageNum = document.getElementById("pageNum");
+
+            if(startOption.selectedIndex != null){
+                var num = parseInt(endMonth)-parseInt(startMonth)+1;
+                pageNum.innerHTML = " 총 페이지 개수: "+num.toString();
+            }
+
+        }
+
+        function changeEnd() {
+
+        }
+
+
 
     </script>
 
@@ -91,6 +113,7 @@
             <div class="print_type">
                 <p class="_preview preview">
                     <img th:src="'/images/sample' + ${month} + '.png'" src="/images/sample.png" style="width: 343px; height: 252px;" alt="월간 인쇄 미리보기" title="월간 인쇄 미리보기"></p>
+
                 <p class="_preview_desc desc" style="display: none;"><em><strong>가로 설정</strong>에 최적화된 스타일 입니다. 용지방향은 가로로 출력됩니다.</em></p>
                 <p class="_preview_desc2 desc2" style="display: none"><strong>세로 설정</strong>에 최적화된 스타일 입니다. 용지방향은 세로로 출력됩니다. 일정/기념일/할 일의내용이 길 경우 인쇄물의 기간 영역에 모두 표시되지 못하고 잘려 보일 수 있습니다.</p>
             </div>
@@ -185,9 +208,9 @@
                 <dd class="_date_period_month period" style="display: block;">
                     <div class="wrap">
 
-                        <select class="_font_size_select" id="monthSelect">
+                        <select class="_font_size_select" id="monthSelect" onchange="change()">
                             <option value="6">6월</option>
-                            <option value="7"selected="selected">7월</option>
+                            <option value="7"selected="">7월</option>
                             <!--디폴트 선택 변경하기-->
                             <option value="8" >8월</option>
                             <!--<option value="8"></option>-->
@@ -198,15 +221,16 @@
                         <!--<input type="text" value="" class="_start_month text" style="width:107px">-->
                         <span class="dc_hyphen">-</span>
 
-                        <select class="_font_size_select" id="monthSelect2">
+                        <select class="_font_size_select" id="monthSelect2" onchange="change()">
                             <option value="6">6월</option>
-                            <option value="7"selected="selected">7월</option>
+                            <option value="7"selected="">7월</option>
                             <!--디폴트 선택 변경하기-->
                             <option value="8" >8월</option>
                             <!--<option value="8"></option>-->
                             <!--<option value="9"></option>-->
                         </select>
 
+                        <label id="pageNum"> 총 페이지 개수: 1</label>
 
                         <!--<input type="text" value="" class="_end_month text" style="width:107px">-->
                         <label for="chk0_1" class="ck_type">
