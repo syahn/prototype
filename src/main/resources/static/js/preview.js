@@ -22,6 +22,10 @@ $(document).ready(function() {
     })
 });
 
+function popup() {
+    window.open("/preview", 'window', 'width=526,height=715');
+}
+
 //convert url request
 function save() {
 
@@ -52,6 +56,25 @@ function change() {
 
 }
 
+//미리보기 세로방향, 가로방향 보여주기
+function checkBox(month) {
+
+    var vertical = document.getElementById("rdo2_1").checked;
+    var image = document.getElementById("previewImage");
+    var preview = image.parentNode;
+
+    if(vertical){
+        preview.removeChild(image);
+        var newImage = '<img id="previewImage" src="/images/sample_vertical.png" style="width: 180px; height: 250px;" alt="월간 인쇄 미리보기" title="월간 인쇄 미리보기"/>';
+        preview.innerHTML = newImage;
+    }else{
+        preview.removeChild(image);
+        var path = "/images/sample"+month+".png";
+        var newImage = '<img id="previewImage" src='+path+' style="width: 343px; height: 252px;" alt="월간 인쇄 미리보기" title="월간 인쇄 미리보기"/>';
+        preview.innerHTML = newImage;
+    }
+
+}
 
 
 function closePrint () {
