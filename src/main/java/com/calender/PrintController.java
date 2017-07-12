@@ -51,8 +51,8 @@ public class PrintController {
 
         PrintRequest print = new PrintRequest();
 
-        String extendIn = "C:/Users/NAVER/Desktop/prototype/target/classes/static/html/month_" + month + ".html";
-        String extendOut = "C:/Users/NAVER/Desktop/prototype/target/classes/static/images/sample" + month + ".png";
+        String extendIn = "/Users/LEE/Desktop/NAVER/prototype/target/classes/static/html/month_" + month + ".html";
+        String extendOut = "/Users/LEE/Desktop/NAVER/prototype/target/classes/static/images/sample" + month + ".png";
 
         print.setIn(extendIn);
         print.setOut(extendOut);
@@ -63,7 +63,7 @@ public class PrintController {
         converter.createImage(print,0);
 
         //세로방향 미리보기 이미지 생성해둠
-        String tempExtendOut = "C:/Users/NAVER/Desktop/prototype/target/classes/static/images/sample_vertical.png";
+        String tempExtendOut = "/Users/LEE/Desktop/NAVER/prototype/target/classes/static/images/sample_vertical.png";
         print.setOut(tempExtendOut);
         converter.createImage(print,1);
 

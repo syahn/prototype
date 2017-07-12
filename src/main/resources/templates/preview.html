@@ -319,6 +319,7 @@
 
             <!--저장 버튼-->
             <button type="button" onclick="save()" name="type" value="save">저장</button>
+            <a href="#" download="filname" id="saveLink" hidden>savelink</a>
 
             <script language="JavaScript">
                 var __sFlashVars = "naverme=1";
@@ -488,5 +489,6 @@
 <!--<script data-main="main-printconfig" src="./네이버 캘린더 - preview_files/require.js.다운로드" type="text/javascript"></script>-->
 
 
-<script type="text/javascript" th:src="@{/js/preview.js}"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" th:src="@{/js/preview.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </body></html>
