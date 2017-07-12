@@ -71,7 +71,7 @@ public class PrintController {
     }
 
     //converter for pdf save and print
-    @RequestMapping(value = "/convert/{startMonth}/{endMonth}/{orientation}/{type}")
+    @RequestMapping(value = "/convert/{startMonth}/{endMonth}/{orientation}")
     public String convert(
             @PathVariable("startMonth") String startMonth,
             @PathVariable("endMonth") String endMonth,

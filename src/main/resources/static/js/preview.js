@@ -28,7 +28,7 @@ $(document).ready(function() {
 
         $.ajax({
 
-            url: "http://localhost:8080/convert/" + startMonth + "/" + endMonth + "/" + orientation + "/print",
+            url: "http://localhost:8080/convert/" + startMonth + "/" + endMonth + "/" + orientation,
             success: function () {
 
                 printPage("/tempPdf/month_result.pdf");
@@ -69,7 +69,7 @@ function save() {
     optionApply();
 
     $.ajax({
-        url: "http://localhost:8080/convert/" + startMonth + "/" + endMonth + "/" + orientation + "/save",
+        url: "http://localhost:8080/convert/" + startMonth + "/" + endMonth + "/" + orientation,
         success: function () {
 
             // 서버 임시 pdf 변환 파일 불러온 후 save box 팝업
