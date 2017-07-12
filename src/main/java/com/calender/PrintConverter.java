@@ -4,7 +4,6 @@ package com.calender;
  * Created by NAVER on 2017-07-07.
  */
 
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,38 +18,34 @@ public class PrintConverter {
 
     private static final Logger LOG = LoggerFactory.getLogger(PrintConverter.class);
 
-    public void createImage(PrintRequest request, HttpServletResponse response) {
-        List<String> pdfCommand = Arrays.asList(
-                "wkhtmltoimage",
-                "--height",
-                "735",
-                request.getIn(),
-                request.getOut()
-        );
-        ProcessBuilder pb = new ProcessBuilder(pdfCommand);
-        Process pdfProcess;
+    public void createImage(PrintRequest request, int orientation) {
 
-        try {
-            pdfProcess = pb.start();
-            waitForProcessInCurrentThread(pdfProcess);
+        List<String> pdfCommand = null;
 
-        } catch (IOException ex) {
-            LOG.error("Could not create a PDF file because of an error occurred: ", ex);
-            throw new RuntimeException("PDF generation failed");
+        //가로방향 이미지
+        if(orientation==0){
+            pdfCommand = Arrays.asList(
+                    "wkhtmltoimage",
+                    "--height",
+                    "735",
+                    request.getIn(),
+                    request.getOut()
+
+            );
         }
-    }
+        //세로 방향 이미지
+        else {
+            pdfCommand = Arrays.asList(
+                    "wkhtmltoimage",
+                    "--height",
+                    "1000",
+                    "--width",
+                    "700",
+                    request.getIn(),
+                    request.getOut()
+            );
+        }
 
-    //세로 방향 이미지 생성메소드
-    public void createImageVetical(PrintRequest request, HttpServletResponse response) {
-        List<String> pdfCommand = Arrays.asList(
-                "wkhtmltoimage",
-                "--height",
-                "1000",
-                "--width",
-                "700",
-                request.getIn(),
-                request.getOut()
-        );
         ProcessBuilder pb = new ProcessBuilder(pdfCommand);
         Process pdfProcess;
 
@@ -193,10 +188,10 @@ public class PrintConverter {
 
         command = String.format(extendedUrl, temp);
 
-
         wkhtml = Runtime.getRuntime().exec(command); // Start process
-        IOUtils.copy(wkhtml.getErrorStream(), System.err); // Print output to console
+        //IOUtils.copy(wkhtml.getErrorStream(), System.err); // Print output to console
         wkhtml.waitFor(); // Allow process to run
+
     }
 
 }

@@ -1,9 +1,29 @@
 
+//option variables
 var startOption = document.getElementById("start_month");
 var endOption = document.getElementById("end_month");
+var landscape = document.getElementById("rdo2_0");
+var orientation = 1;
 
-var startMonth = startOption.options[startOption.selectedIndex].value;
-var endMonth = endOption.options[endOption.selectedIndex].value;
+//print 및 save에서 쓰일 프레임
+var element = document.createElement("iframe");
+
+function optionApply() {
+
+    //시작 월과 끝 월 파라미터 재설정
+    startMonth = startOption.options[startOption.selectedIndex].value;
+    endMonth = endOption.options[endOption.selectedIndex].value;
+
+    //용지방향 재설정
+    orientation = landscape.checked ? 1 : 0;
+
+    //iframe
+    element.style.visibility = "hidden";
+    element.style.position = "fixed";
+    element.style.right = "0";
+    element.style.bottom = "0";
+
+}
 
 $(document).ready(function() {
 
@@ -12,16 +32,9 @@ $(document).ready(function() {
     })
 
     $("#button-print").click(function (){
-        startMonth = startOption.options[startOption.selectedIndex].value;
-        endMonth = endOption.options[endOption.selectedIndex].value;
-        var landscape = document.getElementById("rdo2_0").checked;
-        var orientation = landscape ? 1 : 0;
 
-        var element = document.createElement("iframe");
-        element.style.visibility = "hidden";
-        element.style.position = "fixed";
-        element.style.right = "0";
-        element.style.bottom = "0";
+        optionApply();
+
         element.src = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation + "/print";
         document.body.appendChild(element);
     })
@@ -30,19 +43,9 @@ $(document).ready(function() {
 //convert url request
 function save() {
 
-    //시작 월과 끝 월 파라미터 보내줌
-    startMonth = startOption.options[startOption.selectedIndex].value;
-    endMonth = endOption.options[endOption.selectedIndex].value;
-
     //인쇄 방향 설정
-    var landscape = document.getElementById("rdo2_0").checked;
-    var orientation = landscape ? 1 : 0;
+    optionApply();
 
-    var element = document.createElement("iframe");
-    element.style.visibility = "hidden";
-    element.style.position = "fixed";
-    element.style.right = "0";
-    element.style.bottom = "0";
     element.src = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation + "/save";
     document.body.appendChild(element);
 
@@ -82,4 +85,3 @@ function checkBox(month) {
     }
 
 }
-
