@@ -5,7 +5,6 @@ var endOption = document.getElementById("end_month");
 var startMonth = startOption.options[startOption.selectedIndex].value;
 var endMonth = endOption.options[endOption.selectedIndex].value;
 
-
 $(document).ready(function() {
 
     $("._close").click(function() {
@@ -18,7 +17,13 @@ $(document).ready(function() {
         var landscape = document.getElementById("rdo2_0").checked;
         var orientation = landscape ? 1 : 0;
 
-        location.href = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation + "/print";
+        var element = document.createElement("iframe");
+        element.style.visibility = "hidden";
+        element.style.position = "fixed";
+        element.style.right = "0";
+        element.style.bottom = "0";
+        element.src = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation + "/print";
+        document.body.appendChild(element);
     })
 });
 
@@ -51,28 +56,26 @@ function change() {
     }
 
 }
-
-
-
-function closePrint () {
-    document.body.removeChild(this.__container__);
-}
-
-function setPrint () {
-    this.contentWindow.__container__ = this;
-    this.contentWindow.onbeforeunload = closePrint;
-    this.contentWindow.onafterprint = closePrint;
-    this.contentWindow.focus(); // Required for IE
-    this.contentWindow.print();
-}
-
-function printPage (sURL) {
-    var oHiddFrame = document.createElement("iframe");
-    oHiddFrame.onload = setPrint;
-    oHiddFrame.style.visibility = "hidden";
-    oHiddFrame.style.position = "fixed";
-    oHiddFrame.style.right = "0";
-    oHiddFrame.style.bottom = "0";
-    oHiddFrame.src = sURL;
-    document.body.appendChild(oHiddFrame);
-}
+//
+// function closePrint () {
+//     document.body.removeChild(this.__container__);
+// }
+//
+// function setPrint () {
+//     this.contentWindow.__container__ = this;
+//     this.contentWindow.onbeforeunload = closePrint;
+//     this.contentWindow.onafterprint = closePrint;
+//     this.contentWindow.focus(); // Required for IE
+//     this.contentWindow.print();
+// }
+//
+// function printPage (sURL) {
+//     var oHiddFrame = document.createElement("iframe");
+//     oHiddFrame.onload = setPrint;
+//     oHiddFrame.style.visibility = "hidden";
+//     oHiddFrame.style.position = "fixed";
+//     oHiddFrame.style.right = "0";
+//     oHiddFrame.style.bottom = "0";
+//     oHiddFrame.src = sURL;
+//     document.body.appendChild(oHiddFrame);
+// }

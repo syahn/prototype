@@ -1,47 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.springframework.org/schema/mvc">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <script th:inline="javascript"> // script에서 타임리프
-
-        // convert url 요청 후 페이지 로드 시 즉시 실행
-        window.onload = function(){
-            printPage("/tempPdf/month_result.pdf");
-            //setTimeout(window.history.back(), 3000);
-        }
-
-
-        function closePrint () {
-            document.body.removeChild(this.__container__);
-
-        }
-
-        function setPrint () {
-            this.contentWindow.__container__ = this;
-            this.contentWindow.onbeforeunload = closePrint;
-            this.contentWindow.onafterprint = closePrint;
-            this.contentWindow.focus(); // Required for IE
-            this.contentWindow.print();
-
-        }
-
-
-        function printPage (sURL) {
-            var oHiddFrame = document.createElement("iframe");
-            oHiddFrame.onload = setPrint;
-            oHiddFrame.style.visibility = "hidden";
-            oHiddFrame.style.position = "fixed";
-            oHiddFrame.style.right = "0";
-            oHiddFrame.style.bottom = "0";
-            oHiddFrame.src = sURL;
-            document.body.appendChild(oHiddFrame);
-        }
-    </script>
-
-    <title>print page</title>
 </head>
 <body>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/js/print.js"></script>
 </body>
 </html>

@@ -42,10 +42,9 @@ public class PrintController {
         String extendIn = "C:/Users/NAVER/Desktop/prototype/target/classes/static/html/month_" + month + ".html";
         String extendOut = "C:/Users/NAVER/Desktop/prototype/target/classes/static/images/sample" + month + ".png";
 
-        System.out.print(extendIn + ": " + extendOut);
         print.setIn(extendIn);
         print.setOut(extendOut);
-        //http://localhost:8080/images/sample1.png
+
         model.addAttribute("month", month);
 
         converter.createImage(print, response);
@@ -60,11 +59,11 @@ public class PrintController {
 
     @RequestMapping(value = "/preview/pdfview", method = RequestMethod.POST)
     public void pdf(HttpServletResponse response, @ModelAttribute PrintRequest print) {
-    /*@RequestBody WkhtmlRequest request, */
+        /*@RequestBody WkhtmlRequest request, */
         converter.create(print, response);
     }
 
-    //converter for pdf save
+    //converter for pdf save and print
     @RequestMapping(value = "/convert/{startMonth}/{endMonth}/{orientation}/{type}")
     public String convert(
             @PathVariable("startMonth") String startMonth,
@@ -89,6 +88,6 @@ public class PrintController {
             e.printStackTrace();
         }
 
-        return type.equals("print") ? "print" : "convert";
+        return type.equals("print") ? "print" : "save";
     }
 }
