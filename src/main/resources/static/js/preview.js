@@ -8,6 +8,10 @@ var orientation = 1;
 //print 및 save에서 쓰일 프레임
 var element = document.createElement("iframe");
 
+windw.onload = function () {
+
+}
+
 function optionApply() {
 
     //시작 월과 끝 월 파라미터 재설정
@@ -54,8 +58,12 @@ function save() {
 //총 페이지 수 표시
 function change() {
 
-    startMonth = startOption.options[startOption.selectedIndex].value;
-    endMonth = endOption.options[endOption.selectedIndex].value;
+    // startMonth = startOption.options[startOption.selectedIndex].value;
+    // endMonth = endOption.options[endOption.selectedIndex].value;
+
+    //인쇄 방향 설정
+    optionApply();
+
     var pageNum = document.getElementById("pageNum");
 
     if(startOption.selectedIndex != null){
@@ -63,6 +71,9 @@ function change() {
         pageNum.innerHTML = " 총 페이지 개수: "+num.toString();
         pageNum.style.display="inline";
     }
+
+    element.src = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation + "/image";
+    document.body.appendChild(element);
 
 }
 

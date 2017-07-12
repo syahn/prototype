@@ -76,7 +76,8 @@ public class PrintController {
             @PathVariable("startMonth") String startMonth,
             @PathVariable("endMonth") String endMonth,
             @PathVariable("orientation") int orientation,
-            @PathVariable("type") String type
+            @PathVariable("type") String type,
+            Model model
     ){
 
         int start = Integer.parseInt(startMonth);//시작달
@@ -91,6 +92,13 @@ public class PrintController {
             e.printStackTrace();
         }
 
-        return type.equals("print") ? "print" : "save";
+        model.addAttribute("month",startMonth);
+
+        if(type.equals("image")){
+            return "image";
+        }else{
+            return type.equals("print") ? "print" : "save";
+        }
+
     }
 }
