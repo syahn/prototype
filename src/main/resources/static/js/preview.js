@@ -42,7 +42,13 @@ function save() {
     var landscape = document.getElementById("rdo2_0").checked;
     var orientation = landscape ? 1 : 0;
 
-    location.href = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation + "/save";
+    var element = document.createElement("iframe");
+    element.style.visibility = "hidden";
+    element.style.position = "fixed";
+    element.style.right = "0";
+    element.style.bottom = "0";
+    element.src = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation + "/save";
+    document.body.appendChild(element);
 
 }
 
