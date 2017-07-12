@@ -1,12 +1,8 @@
-
 //option variables
 var startOption = document.getElementById("start_month");
 var endOption = document.getElementById("end_month");
 var landscape = document.getElementById("rdo2_0");
 var orientation = 1;
-
-//print 및 save에서 쓰일 프레임
-var element = document.createElement("iframe");
 
 function optionApply() {
 
@@ -17,38 +13,77 @@ function optionApply() {
     //용지방향 재설정
     orientation = landscape.checked ? 1 : 0;
 
-    //iframe
-    element.style.visibility = "hidden";
-    element.style.position = "fixed";
-    element.style.right = "0";
-    element.style.bottom = "0";
-
 }
 
 $(document).ready(function() {
 
-    $("._close").click(function() {
+    $("._close").click(function () {
         window.close();
-    })
+    });
 
-    $("#button-print").click(function (){
+    $("#button-print").click(function () {
 
         optionApply();
 
-        element.src = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation + "/print";
-        document.body.appendChild(element);
+        $.ajax({
+
+            url: "http://localhost:8080/convert/" + startMonth + "/" + endMonth + "/" + orientation + "/print",
+            success: function () {
+
+                printPage("/tempPdf/month_result.pdf");
+
+            }
+        });
+
+        function closePrint() {
+            document.body.removeChild(this.__container__);
+
+        }
+
+        function setPrint() {
+            this.contentWindow.__container__ = this;
+            this.contentWindow.onbeforeunload = closePrint;
+            this.contentWindow.onafterprint = closePrint;
+            this.contentWindow.focus(); // Required for IE
+            this.contentWindow.print();
+        }
+
+        function printPage(sURL) {
+            var oHiddFrame = document.createElement("iframe");
+            oHiddFrame.onload = setPrint;
+            oHiddFrame.style.visibility = "hidden";
+            oHiddFrame.style.position = "fixed";
+            oHiddFrame.style.right = "0";
+            oHiddFrame.style.bottom = "0";
+            oHiddFrame.src = sURL;
+            document.body.appendChild(oHiddFrame);
+        }
     })
 });
+
 
 //convert url request
 function save() {
 
-    //인쇄 방향 설정
     optionApply();
 
-    element.src = "http://localhost:8080/convert/"+startMonth+"/"+endMonth+"/"+orientation + "/save";
-    document.body.appendChild(element);
+    $.ajax({
+        url: "http://localhost:8080/convert/" + startMonth + "/" + endMonth + "/" + orientation + "/save",
+        success: function () {
 
+            // 서버 임시 pdf 변환 파일 불러온 후 save box 팝업
+            var dataURI = '/tempPdf/month_result.pdf';
+
+            var fileName = 'Calendar';
+
+            var link = document.getElementById("saveLink");
+
+            link.setAttribute("href", dataURI);
+            link.setAttribute("download", fileName);
+            link.click();
+
+        }
+    });
 }
 
 //총 페이지 수 표시
