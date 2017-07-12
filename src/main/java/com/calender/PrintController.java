@@ -72,7 +72,7 @@ public class PrintController {
 
     //converter for pdf save and print
     @RequestMapping(value = "/convert/{startMonth}/{endMonth}/{orientation}/{type}")
-    public void convert(
+    public String convert(
             @PathVariable("startMonth") String startMonth,
             @PathVariable("endMonth") String endMonth,
             @PathVariable("orientation") int orientation,
@@ -90,6 +90,8 @@ public class PrintController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return "preview";
 
     }
 }

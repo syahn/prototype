@@ -59,8 +59,9 @@ $(document).ready(function() {
             oHiddFrame.src = sURL;
             document.body.appendChild(oHiddFrame);
         }
-    });
-}
+    })
+});
+
 
 //convert url request
 function save() {
