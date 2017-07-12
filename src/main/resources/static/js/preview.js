@@ -27,10 +27,6 @@ $(document).ready(function() {
     })
 });
 
-function popup() {
-    window.open("/preview", 'window', 'width=526,height=715');
-}
-
 //convert url request
 function save() {
 

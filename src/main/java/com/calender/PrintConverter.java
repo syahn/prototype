@@ -173,8 +173,7 @@ public class PrintConverter {
     }
 
 
-    //pdf 라이브러리 활용
-
+    //pdf저장 메소드
     final static String url = "http://localhost:8080/month_";//기본 url뒤에 월을 붙임
 
     public static void makeAPdf(int s, int e, int orientation) throws InterruptedException, IOException {

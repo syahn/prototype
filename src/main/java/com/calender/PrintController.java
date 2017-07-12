@@ -69,12 +69,8 @@ public class PrintController {
             @PathVariable("startMonth") String startMonth,
             @PathVariable("endMonth") String endMonth,
             @PathVariable("orientation") int orientation,
-            @PathVariable("type") String type,
-            Model model
+            @PathVariable("type") String type
     ){
-        model.addAttribute("startMonth",startMonth);
-        model.addAttribute("endMonth",endMonth);
-        model.addAttribute("orientation",orientation);
 
         int start = Integer.parseInt(startMonth);//시작달
         int end = Integer.parseInt(endMonth);//끝달
