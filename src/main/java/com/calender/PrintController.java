@@ -69,22 +69,12 @@ public class PrintController {
 
 
     //converter for pdf save and print
-<<<<<<< HEAD
-    @PostMapping("/convert")
-    //{startMonth}/{endMonth}/{orientation}
-=======
     @RequestMapping(value = "/convert", method = RequestMethod.POST)
->>>>>>> e4afed0d7a8a12fa994bb34b8dae69d061b71d2c
     public String convert(
         @RequestParam("startMonth") int startMonth,
         @RequestParam("endMonth") int endMonth,
         @RequestParam("orientation") int orientation
     ){
-<<<<<<< HEAD
-        System.out.println(startMonth + endMonth + orientation);
-=======
->>>>>>> e4afed0d7a8a12fa994bb34b8dae69d061b71d2c
-
         //converting html to pdf - by url
         try {
             converter.makeAPdf(startMonth, endMonth, orientation);

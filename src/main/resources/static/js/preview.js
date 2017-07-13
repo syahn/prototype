@@ -34,8 +34,7 @@ $(document).ready(function() {
                 "startMonth": startMonth,
                 "endMonth": endMonth,
                 "orientation": orientation
-            })
-        .done(function(){
+            }).done(function(){
             printPage("/tempPdf/month_result.pdf");
         });
 
@@ -94,26 +93,40 @@ function save() {
             link.setAttribute("download", fileName);
             link.click();
 
-        },
-        error : function(e) {
-            console.log("ERROR: ", e);
-
         }
     });
 }
 
-//총 페이지 수 표시
+//총 페이지 수 표시 및 프리뷰 이미지 첫달로 변경
 function change() {
 
     startMonth = startOption.options[startOption.selectedIndex].value;
     endMonth = endOption.options[endOption.selectedIndex].value;
     var pageNum = document.getElementById("pageNum");
 
-    if(startOption.selectedIndex != null){
-        var num = parseInt(endMonth)-parseInt(startMonth)+1;
-        pageNum.innerHTML = " 총 페이지 개수: "+num.toString();
-        pageNum.style.display="inline";
-    }
+    var optionValue = {
+        'startMonth': startMonth,
+        'endMonth': endMonth,
+        'orientation' : orientation
+    };
+
+    $.ajax({
+        url: "http://localhost:8080/convert",
+        type:"POST",
+        data: optionValue,
+        success: function () {
+
+            //프리뷰 이미지 변경
+            checkBox()
+
+            // 페이지 개수 표시
+            if(startOption.selectedIndex != null){
+                var num = parseInt(endMonth)-parseInt(startMonth)+1;
+                pageNum.innerHTML = " 총 페이지 개수: "+num.toString();
+                pageNum.style.display="inline";
+            }
+        }
+    });
 
 }
 
