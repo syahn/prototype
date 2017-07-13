@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -70,20 +67,18 @@ public class PrintController {
         return "preview";
     }
 
-    //converter for pdf save and print
-    @RequestMapping(value = "/convert/{startMonth}/{endMonth}/{orientation}")
-    public String convert(
-            @PathVariable("startMonth") String startMonth,
-            @PathVariable("endMonth") String endMonth,
-            @PathVariable("orientation") int orientation
-    ){
 
-        int start = Integer.parseInt(startMonth);//시작달
-        int end = Integer.parseInt(endMonth);//끝달
+    //converter for pdf save and print
+    @RequestMapping(value = "/convert", method = RequestMethod.POST)
+    public String convert(
+        @RequestParam("startMonth") int startMonth,
+        @RequestParam("endMonth") int endMonth,
+        @RequestParam("orientation") int orientation
+    ){
 
         //converting html to pdf - by url
         try {
-            converter.makeAPdf(start, end, orientation);
+            converter.makeAPdf(startMonth, endMonth, orientation);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
