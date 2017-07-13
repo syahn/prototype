@@ -4,20 +4,11 @@
 var startOption = document.getElementById("start_month");
 var endOption = document.getElementById("end_month");
 var landscape = document.getElementById("rdo2_0");
-var orientation = 1;
-var startMonth = "";
-var endMonth = "";
 
-function optionApply() {
+var initialStartOption = startOption.options[startOption.selectedIndex].value;
 
-    //시작 월과 끝 월 파라미터 재설정
-    startMonth = startOption.options[startOption.selectedIndex].value;
-    endMonth = endOption.options[endOption.selectedIndex].value;
+var startMonth, endMonth, orientation = 1;
 
-    //용지방향 재설정
-    orientation = landscape.checked ? 1 : 0;
-
-}
 
 $(document).ready(function() {
 
@@ -34,11 +25,9 @@ $(document).ready(function() {
                 "startMonth": startMonth,
                 "endMonth": endMonth,
                 "orientation": orientation
-            })
-        .done(function(){
+            }).done(function(){
             printPage("/tempPdf/month_result.pdf");
         });
-
 
         function closePrint() {
             document.body.removeChild(this.__container__);
@@ -65,6 +54,16 @@ $(document).ready(function() {
     })
 });
 
+function optionApply() {
+
+    //시작 월과 끝 월 파라미터 재설정
+    startMonth = startOption.options[startOption.selectedIndex].value;
+    endMonth = endOption.options[endOption.selectedIndex].value;
+
+    //용지방향 재설정
+    orientation = landscape.checked ? 1 : 0;
+
+}
 
 //convert url request
 function save() {
@@ -104,15 +103,26 @@ function save() {
 
 //총 페이지 수 표시
 function change() {
-
-    startMonth = startOption.options[startOption.selectedIndex].value;
-    endMonth = endOption.options[endOption.selectedIndex].value;
     var pageNum = document.getElementById("pageNum");
 
+    // 총 페이지 수 계산
+    startMonth = startOption.options[startOption.selectedIndex].value;
+    endMonth = endOption.options[endOption.selectedIndex].value;
+    var numOfMonth = endMonth - startMonth + 1;
+
     if(startOption.selectedIndex != null){
-        var num = parseInt(endMonth)-parseInt(startMonth)+1;
-        pageNum.innerHTML = " 총 페이지 개수: "+num.toString();
+        pageNum.innerHTML = " 총 페이지 개수: " + numOfMonth;
         pageNum.style.display="inline";
+    }
+
+    if (initialStartOption !== startMonth) {
+        console.log("change!");
+        initialStartOption = startMonth;
+        $.post("http://localhost:8080/preview",
+            { "month": startMonth.toString() }
+        ).done(function(){
+            $("#previewImage").attr("src", "/images/sample" + startMonth + ".png");
+        });
     }
 
 }
@@ -134,5 +144,4 @@ function checkBox(month) {
         var newImage = '<img id="previewImage" src='+path+' style="width: 343px; height: 252px;" alt="월간 인쇄 미리보기" title="월간 인쇄 미리보기"/>';
         preview.innerHTML = newImage;
     }
-
 }
