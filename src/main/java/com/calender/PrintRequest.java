@@ -3,6 +3,7 @@ package com.calender;
 /**
  * Created by NAVER on 2017-07-07.
  */
+
 public class PrintRequest {
     private String in;
     private String out;

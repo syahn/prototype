@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
@@ -67,23 +70,15 @@ public class PrintController {
         return "preview";
     }
 
-
     //converter for pdf save and print
-<<<<<<< HEAD
     @PostMapping("/convert")
     //{startMonth}/{endMonth}/{orientation}
-=======
-    @RequestMapping(value = "/convert", method = RequestMethod.POST)
->>>>>>> e4afed0d7a8a12fa994bb34b8dae69d061b71d2c
     public String convert(
         @RequestParam("startMonth") int startMonth,
         @RequestParam("endMonth") int endMonth,
         @RequestParam("orientation") int orientation
     ){
-<<<<<<< HEAD
         System.out.println(startMonth + endMonth + orientation);
-=======
->>>>>>> e4afed0d7a8a12fa994bb34b8dae69d061b71d2c
 
         //converting html to pdf - by url
         try {

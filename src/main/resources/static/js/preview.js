@@ -5,6 +5,8 @@ var startOption = document.getElementById("start_month");
 var endOption = document.getElementById("end_month");
 var landscape = document.getElementById("rdo2_0");
 var orientation = 1;
+var startMonth = "";
+var endMonth = "";
 
 function optionApply() {
 
@@ -69,8 +71,16 @@ function save() {
 
     optionApply();
 
+    var optionValue = {
+        'startMonth': startMonth,
+        'endMonth': endMonth,
+        'orientation' : orientation
+    };
+
     $.ajax({
-        url: "http://localhost:8080/convert/" + startMonth + "/" + endMonth + "/" + orientation,
+        url: "http://localhost:8080/convert",
+        type:"POST",
+        data: optionValue,
         success: function () {
 
             // 서버 임시 pdf 변환 파일 불러온 후 save box 팝업
@@ -83,6 +93,10 @@ function save() {
             link.setAttribute("href", dataURI);
             link.setAttribute("download", fileName);
             link.click();
+
+        },
+        error : function(e) {
+            console.log("ERROR: ", e);
 
         }
     });
