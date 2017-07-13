@@ -9,8 +9,12 @@ var initialStartMonth = startOption.options[startOption.selectedIndex].value;
 
 var startMonth, endMonth, orientation = 1;
 
-
 $(document).ready(function() {
+
+    /*<![CDATA[*/
+    startOption.options[[[${month}]]].selected = true;
+    endOption.options[[[${month}]]].selected = true;
+    /*]]>*/
 
     $("._close").click(function () {
         window.close();
@@ -117,7 +121,12 @@ function change() {
         $.post("http://localhost:8080/preview",
             { "month": startMonth.toString() }
         ).done(function(){
-            $("#previewImage").attr("src", "/images/sample" + startMonth + ".png");
+            orientation = landscape.checked ? 1 : 0;
+            if(orientation==0) {
+                $("#previewImage").attr({"src":"/images/sample_vertical"+startMonth+".png","style":"width: 180px; height: 250px;"});
+            }else{
+                $("#previewImage").attr({"src":"/images/sample" + startMonth + ".png","style":"height: 252px; width: 343px;"});
+            }
         });
     }
 
@@ -131,13 +140,8 @@ function checkBox() {
     var preview = image.parentNode;
 
     if(vertical){
-        preview.removeChild(image);
-        var newImage = '<img id="previewImage" src="/images/sample_vertical.png" style="width: 180px; height: 250px;" alt="월간 인쇄 미리보기" title="월간 인쇄 미리보기"/>';
-        preview.innerHTML = newImage;
+        $("#previewImage").attr({"src":"/images/sample_vertical"+initialStartMonth+".png","style":"width: 180px; height: 250px;"});
     }else{
-        preview.removeChild(image);
-        var path = "/images/sample"+initialStartMonth+".png";
-        var newImage = '<img id="previewImage" src='+path+' style="width: 343px; height: 252px;" alt="월간 인쇄 미리보기" title="월간 인쇄 미리보기"/>';
-        preview.innerHTML = newImage;
+        $("#previewImage").attr({"src":"/images/sample" + initialStartMonth + ".png","style":"height: 252px; width: 343px;"});
     }
 }

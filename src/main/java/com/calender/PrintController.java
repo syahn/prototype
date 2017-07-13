@@ -60,7 +60,7 @@ public class PrintController {
         converter.createImage(print,0);
 
         //세로방향 미리보기 이미지 생성해둠
-        String tempExtendOut = "C:/Users/NAVER/Desktop/prototype/target/classes/static/images/sample_vertical.png";
+        String tempExtendOut = "C:/Users/NAVER/Desktop/prototype/target/classes/static/images/sample_vertical"+month+".png";
         print.setOut(tempExtendOut);
         converter.createImage(print,1);
 
