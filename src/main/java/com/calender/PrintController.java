@@ -71,19 +71,18 @@ public class PrintController {
     }
 
     //converter for pdf save and print
-    @RequestMapping(value = "/convert/{startMonth}/{endMonth}/{orientation}")
+    @PostMapping("/convert")
+    //{startMonth}/{endMonth}/{orientation}
     public String convert(
-            @PathVariable("startMonth") String startMonth,
-            @PathVariable("endMonth") String endMonth,
-            @PathVariable("orientation") int orientation
+        @RequestParam("startMonth") int startMonth,
+        @RequestParam("endMonth") int endMonth,
+        @RequestParam("orientation") int orientation
     ){
-
-        int start = Integer.parseInt(startMonth);//시작달
-        int end = Integer.parseInt(endMonth);//끝달
+        System.out.println(startMonth + endMonth + orientation);
 
         //converting html to pdf - by url
         try {
-            converter.makeAPdf(start, end, orientation);
+            converter.makeAPdf(startMonth, endMonth, orientation);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {

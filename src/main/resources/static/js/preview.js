@@ -1,4 +1,5 @@
 
+
 //option variables
 var startOption = document.getElementById("start_month");
 var endOption = document.getElementById("end_month");
@@ -26,19 +27,19 @@ $(document).ready(function() {
 
         optionApply();
 
-        $.ajax({
-
-            url: "http://localhost:8080/convert/" + startMonth + "/" + endMonth + "/" + orientation,
-            success: function () {
-
-                printPage("/tempPdf/month_result.pdf");
-
-            }
+        $.post("http://localhost:8080/convert",
+            {
+                "startMonth": startMonth,
+                "endMonth": endMonth,
+                "orientation": orientation
+            })
+        .done(function(){
+            printPage("/tempPdf/month_result.pdf");
         });
+
 
         function closePrint() {
             document.body.removeChild(this.__container__);
-
         }
 
         function setPrint() {

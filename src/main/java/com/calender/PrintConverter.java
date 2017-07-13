@@ -171,11 +171,11 @@ public class PrintConverter {
     //pdf저장 메소드
     final static String url = "http://localhost:8080/month_";//기본 url뒤에 월을 붙임
 
-    public static void makeAPdf(int s, int e, int orientation) throws InterruptedException, IOException {
+    public static void makeAPdf(int startMonth, int endMonth, int orientation) throws InterruptedException, IOException {
 
         // 각 월에 대한 임시 경로 생성
         String temp = "";
-        for(int i=s;i<=e;i++){
+        for(int i=startMonth;i<=endMonth;i++){
             temp+=(url+Integer.toString(i)+" ");
         }
 
@@ -191,8 +191,7 @@ public class PrintConverter {
         wkhtml = Runtime.getRuntime().exec(command); // Start process
         //IOUtils.copy(wkhtml.getErrorStream(), System.err); // Print output to console
         wkhtml.waitFor(); // Allow process to run
-
+        System.out.println(temp);
     }
-
 }
 
