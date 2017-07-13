@@ -163,7 +163,6 @@
                 <dd class="_date_period_month period" style="display: block;">
                     <div class="wrap">
 
-
                         <select class="_font_size_select" id="start_month" onchange="change()">
 
                             <option value="6">6월</option>
@@ -222,10 +221,10 @@
                 <dd class="paper _page_orientation" style="display: block;">
                     <ul>
                         <li>
-                            <p><input type="radio" id="rdo2_0" name="rdo0" class="radio01 _landscape" checked="" th:onclick="'javascript:checkBox(\'' + ${month} + '\')'"> <label for="rdo2_0">가로</label></p>
+                            <p><input type="radio" id="rdo2_0" name="rdo0" class="radio01 _landscape" checked="" onclick="checkBox()"> <label for="rdo2_0">가로</label></p>
                         </li>
                         <li>
-                            <p><input type="radio" id="rdo2_1" name="rdo0" class="radio01 _portrait" th:onclick="'javascript:checkBox(\'' + ${month} + '\')'"> <label for="rdo2_1">세로</label></p>
+                            <p><input type="radio" id="rdo2_1" name="rdo0" class="radio01 _portrait" onclick="checkBox()"> <label for="rdo2_1">세로</label></p>
 
                         </li>
                     </ul>

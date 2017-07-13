@@ -67,7 +67,6 @@ public class PrintController {
         return "preview";
     }
 
-
     //converter for pdf save and print
     @RequestMapping(value = "/convert", method = RequestMethod.POST)
     public String convert(
@@ -83,7 +82,6 @@ public class PrintController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return "preview";
     }
 }

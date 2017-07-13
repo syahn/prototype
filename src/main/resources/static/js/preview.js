@@ -4,20 +4,11 @@
 var startOption = document.getElementById("start_month");
 var endOption = document.getElementById("end_month");
 var landscape = document.getElementById("rdo2_0");
-var orientation = 1;
-var startMonth = "";
-var endMonth = "";
 
-function optionApply() {
+var initialStartMonth = startOption.options[startOption.selectedIndex].value;
 
-    //시작 월과 끝 월 파라미터 재설정
-    startMonth = startOption.options[startOption.selectedIndex].value;
-    endMonth = endOption.options[endOption.selectedIndex].value;
+var startMonth, endMonth, orientation = 1;
 
-    //용지방향 재설정
-    orientation = landscape.checked ? 1 : 0;
-
-}
 
 $(document).ready(function() {
 
@@ -37,7 +28,6 @@ $(document).ready(function() {
             }).done(function(){
             printPage("/tempPdf/month_result.pdf");
         });
-
 
         function closePrint() {
             document.body.removeChild(this.__container__);
@@ -64,6 +54,16 @@ $(document).ready(function() {
     })
 });
 
+function optionApply() {
+
+    //시작 월과 끝 월 파라미터 재설정
+    startMonth = startOption.options[startOption.selectedIndex].value;
+    endMonth = endOption.options[endOption.selectedIndex].value;
+
+    //용지방향 재설정
+    orientation = landscape.checked ? 1 : 0;
+
+}
 
 //convert url request
 function save() {
@@ -99,39 +99,32 @@ function save() {
 
 //총 페이지 수 표시 및 프리뷰 이미지 첫달로 변경
 function change() {
-
-    startMonth = startOption.options[startOption.selectedIndex].value;
-    endMonth = endOption.options[endOption.selectedIndex].value;
     var pageNum = document.getElementById("pageNum");
 
-    var optionValue = {
-        'startMonth': startMonth,
-        'endMonth': endMonth,
-        'orientation' : orientation
-    };
+    // 총 페이지 수 계산
+    startMonth = startOption.options[startOption.selectedIndex].value;
+    endMonth = endOption.options[endOption.selectedIndex].value;
+    var numOfMonth = endMonth - startMonth + 1;
 
-    $.ajax({
-        url: "http://localhost:8080/convert",
-        type:"POST",
-        data: optionValue,
-        success: function () {
+    if(startOption.selectedIndex != null){
+        pageNum.innerHTML = " 총 페이지 개수: " + numOfMonth;
+        pageNum.style.display="inline";
+    }
 
-            //프리뷰 이미지 변경
-            checkBox()
-
-            // 페이지 개수 표시
-            if(startOption.selectedIndex != null){
-                var num = parseInt(endMonth)-parseInt(startMonth)+1;
-                pageNum.innerHTML = " 총 페이지 개수: "+num.toString();
-                pageNum.style.display="inline";
-            }
-        }
-    });
+    if (initialStartMonth !== startMonth) {
+        console.log("change!");
+        initialStartMonth = startMonth;
+        $.post("http://localhost:8080/preview",
+            { "month": startMonth.toString() }
+        ).done(function(){
+            $("#previewImage").attr("src", "/images/sample" + startMonth + ".png");
+        });
+    }
 
 }
 
 //미리보기 세로방향, 가로방향 보여주기
-function checkBox(month) {
+function checkBox() {
 
     var vertical = document.getElementById("rdo2_1").checked;
     var image = document.getElementById("previewImage");
@@ -143,9 +136,8 @@ function checkBox(month) {
         preview.innerHTML = newImage;
     }else{
         preview.removeChild(image);
-        var path = "/images/sample"+month+".png";
+        var path = "/images/sample"+initialStartMonth+".png";
         var newImage = '<img id="previewImage" src='+path+' style="width: 343px; height: 252px;" alt="월간 인쇄 미리보기" title="월간 인쇄 미리보기"/>';
         preview.innerHTML = newImage;
     }
-
 }
