@@ -169,7 +169,7 @@ public class PrintConverter {
 
 
     //pdf저장 메소드
-    final static String url = "http://localhost:8080/month_";//기본 url뒤에 월을 붙임
+    final static String url = "http://localhost:9000/month_";//기본 url뒤에 월을 붙임
 
     public static void makeAPdf(int startMonth, int endMonth, int orientation) throws InterruptedException, IOException {
 

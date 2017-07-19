@@ -7,6 +7,11 @@ var initialStartMonth = startOption.options[startOption.selectedIndex].value;
 
 var startMonth, endMonth, orientation = 1;
 
+var printMode = {
+    "portrait": "width: 180px; height:260px;",
+    "landscape": "width: 343px; height:260px;"
+}
+
 $(document).ready(function () {
 
     //select option 메인 페이지 달로 초기화
@@ -114,68 +119,36 @@ function change() {
     }
 
     if (initialStartMonth !== startMonth) {
-        console.log("initial: " + initialStartMonth, "start: " + startMonth);
+        //console.log("initial: " + initialStartMonth, "start: " + startMonth);
         initialStartMonth = startMonth;
 
         //html2canvas활용한 프리뷰 이미지
-        takeScreenShot(initialStartMonth);
+        var vertical = document.getElementById("rdo2_1").checked;
+
+        if (vertical) {
+            takeScreenShot(initialStartMonth, "portrait");
+        } else {
+            takeScreenShot(initialStartMonth, "landscape");
+        }
+        //takeScreenShot(initialStartMonth, "landscape");
     }
 
 }
 
 //미리보기 세로방향, 가로방향 보여주기
 function checkBox() {
+    startMonth = startOption.options[startOption.selectedIndex].value;
 
     var vertical = document.getElementById("rdo2_1").checked;
-    var image = document.getElementById("previewImage");
-    var preview = image.parentNode;
 
     if (vertical) {
-        $("#previewImage").attr({
-            "src": "/images/sample_vertical" + initialStartMonth + ".png",
-            "style": "width: 180px; height: 250px;"
-        });
+        takeScreenShot(startMonth, "portrait");
     } else {
-        $("#previewImage").attr({
-            "src": "/images/sample" + initialStartMonth + ".png",
-            "style": "height: 252px; width: 343px;"
-        });
+        takeScreenShot(startMonth, "landscape");
     }
 }
 
-// function takeScreenShot(month) {
-//
-//     if (document.getElementById("hiddenFrame") != null) {
-//         var elem = document.getElementById("hiddenFrame");
-//         elem.parentNode.removeChild(elem);
-//     }
-//
-//     var hiddenFrame = document.createElement("iframe");
-//     hiddenFrame.setAttribute("id", "hiddenFrame");
-//     hiddenFrame.setAttribute("width", "1000");
-//     hiddenFrame.setAttribute("height", "1000");
-//     hiddenFrame.style.marginTop = "100px";
-//     document.body.appendChild(hiddenFrame);
-//
-//     var url = "html/month_" + month + ".html";
-//     $("#hiddenFrame").attr("src", url);
-//
-//     html2canvas(document.getElementById("hiddenFrame"), {
-//         onrendered: function (canvas) {
-//
-//             //이미지
-//             var dataUrl = canvas.toDataURL();
-//             $("#previewImage").attr({"src": dataUrl, "style": "width: 343px; height:260px;"});
-//
-//         },
-//         width: 1000,
-//         height: 1000
-//     });
-//     hiddenFrame.style.visibility = "hidden";
-//
-// }
-
-function takeScreenShot(month) {
+function takeScreenShot(month, mode) {
 
     if (document.getElementById("hiddenFrame") != null) {
         var elem = document.getElementById("hiddenFrame");
@@ -191,7 +164,7 @@ function takeScreenShot(month) {
             var dataUrl = canvas.toDataURL();
             $("#previewImage").attr({
                 "src": dataUrl,
-                "style": "width: 343px; height:260px;"
+                "style": mode === "landscape" ? printMode.landscape : printMode.portrait
             });
 
         }
@@ -204,8 +177,8 @@ function makeDummyWindow(month) {
 
     var hiddenFrame = document.createElement("iframe");
     hiddenFrame.setAttribute("id", "hiddenFrame");
-    hiddenFrame.setAttribute("width", "1200");
-    hiddenFrame.setAttribute("height", "100%");
+    hiddenFrame.setAttribute("width", "1000");
+    hiddenFrame.setAttribute("height", "1000");
     hiddenFrame.setAttribute("frameBorder", "0");
     hiddenFrame.style.marginTop = "100px";
     document.body.appendChild(hiddenFrame);

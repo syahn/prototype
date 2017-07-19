@@ -51,7 +51,6 @@ public class PrintController {
 
         tempUrl = preview;
         month = monthVal;
-        System.out.println(month);
     }
 
     @RequestMapping("/preview")
