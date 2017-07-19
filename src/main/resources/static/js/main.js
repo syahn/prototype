@@ -3,15 +3,14 @@
  */
 
 var previewButton = document.getElementById("print-btn");
-var self = this;
 
 previewButton.addEventListener("click", function (e) {
     var month = e.target.value;
     makeDummyWindow(month);
-    processHtml2Canvas();
+    takeScreenShot(month);
 });
 
-function processHtml2Canvas() {
+function takeScreenShot(month) {
     html2canvas(document.getElementById("hiddenFrame"), {
         onrendered: function (canvas) {
 
@@ -20,7 +19,10 @@ function processHtml2Canvas() {
 
             // 추출한 URL을 서버에 저장한 후, 프리뷰 창을 띄운다.
             $.post("http://localhost:9000/save-url",
-                {"previewUrl": dataUrl}
+                {
+                    "previewUrl": dataUrl,
+                    "month": month
+                }
             ).done(openPreviewTap);
         }
     });
@@ -32,6 +34,7 @@ function makeDummyWindow(month) {
     hiddenFrame.setAttribute("id", "hiddenFrame");
     hiddenFrame.setAttribute("width", "100%");
     hiddenFrame.setAttribute("height", "100%");
+    hiddenFrame.setAttribute("frameBorder", "0");
     document.body.appendChild(hiddenFrame);
 
     $("#hiddenFrame").attr("src", generateNewUrl(month));
@@ -42,5 +45,5 @@ function generateNewUrl(month) {
 }
 
 function openPreviewTap() {
-    window.open('/preview','인쇄 프리뷰', 'resizable=1,width=526,height=715');
+    window.open('/preview', '인쇄 프리뷰', 'resizable=1,width=526,height=715');
 }

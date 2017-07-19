@@ -1,5 +1,3 @@
-
-
 //option variables
 var startOption = document.getElementById("start_month");
 var endOption = document.getElementById("end_month");
@@ -9,17 +7,12 @@ var initialStartMonth = startOption.options[startOption.selectedIndex].value;
 
 var startMonth, endMonth, orientation = 1;
 
-$(document).load(function() {
-
-    // setTimeout(function(){
-
-        //get 필요 없음 나중에 삭제하기
-
+$(document).ready(function () {
 
     //select option 메인 페이지 달로 초기화
     $("#start_month").val($('#monthPreview').attr("value"));
     $("#end_month").val($('#monthPreview').attr("value"));
-
+    initialStartMonth = startOption.options[startOption.selectedIndex].value;
 
     $("._close").click(function () {
         window.close();
@@ -34,7 +27,7 @@ $(document).load(function() {
                 "startMonth": startMonth,
                 "endMonth": endMonth,
                 "orientation": orientation
-            }).done(function(){
+            }).done(function () {
             printPage("/tempPdf/month_result.pdf");
         });
 
@@ -82,12 +75,12 @@ function save() {
     var optionValue = {
         'startMonth': startMonth,
         'endMonth': endMonth,
-        'orientation' : orientation
+        'orientation': orientation
     };
 
     $.ajax({
         url: "http://localhost:9000/convert",
-        type:"POST",
+        type: "POST",
         data: optionValue,
         success: function () {
 
@@ -115,24 +108,17 @@ function change() {
     endMonth = endOption.options[endOption.selectedIndex].value;
     var numOfMonth = endMonth - startMonth + 1;
 
-    if(startOption.selectedIndex != null){
+    if (startOption.selectedIndex != null) {
         pageNum.innerHTML = " 총 페이지 개수: " + numOfMonth;
-        pageNum.style.display="inline";
+        pageNum.style.display = "inline";
     }
 
     if (initialStartMonth !== startMonth) {
-        console.log("change!");
+        console.log("initial: " + initialStartMonth, "start: " + startMonth);
         initialStartMonth = startMonth;
-        $.post("http://localhost:9000/preview",
-            { "month": startMonth.toString() }
-        ).done(function(){
-            orientation = landscape.checked ? 1 : 0;
-            if(orientation==0) {
-                $("#previewImage").attr({"src":"/images/sample_vertical"+startMonth+".png","style":"width: 180px; height: 250px;"});
-            }else{
-                $("#previewImage").attr({"src":"/images/sample" + startMonth + ".png","style":"height: 252px; width: 343px;"});
-            }
-        });
+
+        //html2canvas활용한 프리뷰 이미지
+        takeScreenShot(initialStartMonth);
     }
 
 }
@@ -143,10 +129,90 @@ function checkBox() {
     var vertical = document.getElementById("rdo2_1").checked;
     var image = document.getElementById("previewImage");
     var preview = image.parentNode;
-    console.log(initialStartMonth);
-    if(vertical){
-        $("#previewImage").attr({"src":"/images/sample_vertical.png","style":"width: 180px; height: 250px;"});
-    }else{
-        $("#previewImage").attr({"src":"/images/sample" + initialStartMonth + ".png","style":"height: 252px; width: 343px;"});
+
+    if (vertical) {
+        $("#previewImage").attr({
+            "src": "/images/sample_vertical" + initialStartMonth + ".png",
+            "style": "width: 180px; height: 250px;"
+        });
+    } else {
+        $("#previewImage").attr({
+            "src": "/images/sample" + initialStartMonth + ".png",
+            "style": "height: 252px; width: 343px;"
+        });
     }
+}
+
+// function takeScreenShot(month) {
+//
+//     if (document.getElementById("hiddenFrame") != null) {
+//         var elem = document.getElementById("hiddenFrame");
+//         elem.parentNode.removeChild(elem);
+//     }
+//
+//     var hiddenFrame = document.createElement("iframe");
+//     hiddenFrame.setAttribute("id", "hiddenFrame");
+//     hiddenFrame.setAttribute("width", "1000");
+//     hiddenFrame.setAttribute("height", "1000");
+//     hiddenFrame.style.marginTop = "100px";
+//     document.body.appendChild(hiddenFrame);
+//
+//     var url = "html/month_" + month + ".html";
+//     $("#hiddenFrame").attr("src", url);
+//
+//     html2canvas(document.getElementById("hiddenFrame"), {
+//         onrendered: function (canvas) {
+//
+//             //이미지
+//             var dataUrl = canvas.toDataURL();
+//             $("#previewImage").attr({"src": dataUrl, "style": "width: 343px; height:260px;"});
+//
+//         },
+//         width: 1000,
+//         height: 1000
+//     });
+//     hiddenFrame.style.visibility = "hidden";
+//
+// }
+
+function takeScreenShot(month) {
+
+    if (document.getElementById("hiddenFrame") != null) {
+        var elem = document.getElementById("hiddenFrame");
+        elem.parentNode.removeChild(elem);
+    }
+
+    makeDummyWindow(month);
+
+    html2canvas(document.getElementById("hiddenFrame"), {
+        onrendered: function (canvas) {
+
+            //이미지
+            var dataUrl = canvas.toDataURL();
+            $("#previewImage").attr({
+                "src": dataUrl,
+                "style": "width: 343px; height:260px;"
+            });
+
+        }
+    });
+    hiddenFrame.style.visibility = "hidden";
+
+}
+
+function makeDummyWindow(month) {
+
+    var hiddenFrame = document.createElement("iframe");
+    hiddenFrame.setAttribute("id", "hiddenFrame");
+    hiddenFrame.setAttribute("width", "1200");
+    hiddenFrame.setAttribute("height", "100%");
+    hiddenFrame.setAttribute("frameBorder", "0");
+    hiddenFrame.style.marginTop = "100px";
+    document.body.appendChild(hiddenFrame);
+
+    $("#hiddenFrame").attr("src", generateNewUrl(month));
+}
+
+function generateNewUrl(month) {
+    return "html/month_" + month + ".html";
 }

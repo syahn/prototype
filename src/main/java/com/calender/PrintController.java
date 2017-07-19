@@ -20,6 +20,7 @@ import java.io.IOException;
 public class PrintController {
 
     private String tempUrl;
+    private String month;
 
     @Autowired
     private PrintConverter converter;
@@ -43,15 +44,21 @@ public class PrintController {
 
     @ResponseBody
     @RequestMapping("/save-url")
-    public void saveUrl(@RequestParam("previewUrl") String preview){
-        System.out.println(preview);
+    public void saveUrl(
+        @RequestParam("previewUrl") String preview,
+        @RequestParam("month") String monthVal
+    ){
+
         tempUrl = preview;
+        month = monthVal;
+        System.out.println(month);
     }
 
     @RequestMapping("/preview")
     public String viewPreview(Model model){
 
         model.addAttribute("previewurl", tempUrl);
+        model.addAttribute("month", month);
 
         return "preview";
     }
