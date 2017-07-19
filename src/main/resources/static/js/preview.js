@@ -24,7 +24,7 @@ $(document).ready(function() {
 
         optionApply();
 
-        $.post("http://localhost:8080/convert",
+        $.post("http://localhost:9000/convert",
             {
                 "startMonth": startMonth,
                 "endMonth": endMonth,
@@ -81,7 +81,7 @@ function save() {
     };
 
     $.ajax({
-        url: "http://localhost:8080/convert",
+        url: "http://localhost:9000/convert",
         type:"POST",
         data: optionValue,
         success: function () {
@@ -118,7 +118,7 @@ function change() {
     if (initialStartMonth !== startMonth) {
         console.log("change!");
         initialStartMonth = startMonth;
-        $.post("http://localhost:8080/preview",
+        $.post("http://localhost:9000/preview",
             { "month": startMonth.toString() }
         ).done(function(){
             orientation = landscape.checked ? 1 : 0;
