@@ -25,7 +25,8 @@ $(document).ready(function () {
 
     $("#button-print").click(function () {
 
-        optionApply();
+        refreshPeriod();
+        refreshOrientation();
 
         $.post("http://localhost:9000/convert",
             {
@@ -61,21 +62,24 @@ $(document).ready(function () {
     })
 });
 
-function optionApply() {
+//시작 월과 끝 월 파라미터 재설정
+function refreshPeriod() {
 
-    //시작 월과 끝 월 파라미터 재설정
     startMonth = startOption.options[startOption.selectedIndex].value;
     endMonth = endOption.options[endOption.selectedIndex].value;
+}
 
-    //용지방향 재설정
+//용지방향 재설정
+function refreshOrientation() {
+
     orientation = landscape.checked ? 1 : 0;
-
 }
 
 //convert url request
 function save() {
 
-    optionApply();
+    refreshPeriod();
+    refreshOrientation();
 
     var optionValue = {
         'startMonth': startMonth,
@@ -108,9 +112,8 @@ function save() {
 function change() {
     var pageNum = document.getElementById("pageNum");
 
-    // 총 페이지 수 계산
-    startMonth = startOption.options[startOption.selectedIndex].value;
-    endMonth = endOption.options[endOption.selectedIndex].value;
+    refreshPeriod();
+
     var numOfMonth = endMonth - startMonth + 1;
 
     if (startOption.selectedIndex != null) {
@@ -119,7 +122,7 @@ function change() {
     }
 
     if (initialStartMonth !== startMonth) {
-        //console.log("initial: " + initialStartMonth, "start: " + startMonth);
+
         initialStartMonth = startMonth;
 
         //html2canvas활용한 프리뷰 이미지
@@ -130,14 +133,14 @@ function change() {
         } else {
             takeScreenShot(initialStartMonth, "landscape");
         }
-        //takeScreenShot(initialStartMonth, "landscape");
     }
 
 }
 
 //미리보기 세로방향, 가로방향 보여주기
 function checkBox() {
-    startMonth = startOption.options[startOption.selectedIndex].value;
+
+    refreshPeriod();
 
     var vertical = document.getElementById("rdo2_1").checked;
 

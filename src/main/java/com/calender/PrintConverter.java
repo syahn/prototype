@@ -182,9 +182,11 @@ public class PrintConverter {
         Process wkhtml; // Create uninitialized process
         String command = null;
 
-        String extendedUrl = "wkhtmltopdf" +
+        String extendedUrl =
+            "wkhtmltopdf" +
             (orientation == 1 ? " -O landscape " : " ") +
-            "%s C:/Users/NAVER/Desktop/prototype/target/classes/static/tempPdf/month_result.pdf";
+            "%s " +
+            "C:/Users/NAVER/Desktop/prototype/target/classes/static/tempPdf/month_result.pdf";
 
         command = String.format(extendedUrl, temp);
 
