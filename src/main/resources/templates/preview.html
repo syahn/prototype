@@ -24,6 +24,7 @@
     <link type="text/css" rel="stylesheet" href="css/preview.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
+
     <style>
         .fog {
             position: absolute;
@@ -66,8 +67,8 @@
         </div>
         <div id="content" class="_content">
             <div class="print_type">
-                <p class="_preview preview">
-                    <img id="previewImage" th:src="'/images/sample' + ${month} + '.png'" src="/images/sample.png" style="width: 343px; height: 252px;" alt="월간 인쇄 미리보기" title="월간 인쇄 미리보기">
+                <p class="_preview preview" id="monthPreview">
+                    <img id="previewImage" th:src="${previewurl}" style="width: 343px; height: 252px;" alt="월간 인쇄 미리보기" title="월간 인쇄 미리보기">
 
                 <p class="_preview_desc desc" style="display: none;"><em><strong>가로 설정</strong>에 최적화된 스타일 입니다. 용지방향은 가로로 출력됩니다.</em></p>
                 <p class="_preview_desc2 desc2" style="display: none"><strong>세로 설정</strong>에 최적화된 스타일 입니다. 용지방향은 세로로 출력됩니다. 일정/기념일/할 일의내용이 길 경우 인쇄물의 기간 영역에 모두 표시되지 못하고 잘려 보일 수 있습니다.</p>
@@ -165,7 +166,7 @@
 
                         <select class="_font_size_select" id="start_month" onchange="change()">
 
-                            <option value="6">6월</option>
+                            <option value="6" selected="">6월</option>
                             <option value="7">7월</option>
                             <!--디폴트 선택 변경하기-->
                             <option value="8" >8월</option>
@@ -180,7 +181,7 @@
 
                         <select class="_font_size_select" id="end_month" onchange="change()">
 
-                            <option value="6">6월</option>
+                            <option value="6" selected="">6월</option>
                             <option value="7">7월</option>
                             <!--디폴트 선택 변경하기-->
                             <option value="8" >8월</option>
@@ -319,7 +320,7 @@
             <!--저장 버튼-->
             <button type="button" onclick="save()" name="type" value="save">저장</button>
             <a href="#" download="filname" id="saveLink" hidden>savelink</a>
-            
+
             <script language="JavaScript">
                 var __sFlashVars = "naverme=1";
                 if (__sUserLocale != 'ko') {
@@ -489,4 +490,5 @@
 
 
 <script type="text/javascript" th:src="@{/js/preview.js}"></script>
+<script src="js/html2canvas.js"></script>
 </body></html>

@@ -9,12 +9,17 @@ var initialStartMonth = startOption.options[startOption.selectedIndex].value;
 
 var startMonth, endMonth, orientation = 1;
 
-$(document).ready(function() {
+$(document).load(function() {
 
-    /*<![CDATA[*/
-    startOption.options[[[${month}]]].selected = true;
-    endOption.options[[[${month}]]].selected = true;
-    /*]]>*/
+    // setTimeout(function(){
+
+        //get 필요 없음 나중에 삭제하기
+
+
+    //select option 메인 페이지 달로 초기화
+    $("#start_month").val($('#monthPreview').attr("value"));
+    $("#end_month").val($('#monthPreview').attr("value"));
+
 
     $("._close").click(function () {
         window.close();
@@ -138,9 +143,9 @@ function checkBox() {
     var vertical = document.getElementById("rdo2_1").checked;
     var image = document.getElementById("previewImage");
     var preview = image.parentNode;
-
+    console.log(initialStartMonth);
     if(vertical){
-        $("#previewImage").attr({"src":"/images/sample_vertical"+initialStartMonth+".png","style":"width: 180px; height: 250px;"});
+        $("#previewImage").attr({"src":"/images/sample_vertical.png","style":"width: 180px; height: 250px;"});
     }else{
         $("#previewImage").attr({"src":"/images/sample" + initialStartMonth + ".png","style":"height: 252px; width: 343px;"});
     }

@@ -19,17 +19,15 @@ import java.io.IOException;
 @EnableAutoConfiguration
 public class PrintController {
 
+    private String tempUrl;
+
     @Autowired
     private PrintConverter converter;
 
     @RequestMapping("/month_6")
-    public String month_6(){
-        return "month_6";
-    }
-
+    public String month_6(){  return "month_6"; }
     @RequestMapping("/month_7")
     public String month_7() { return "month_7"; }
-
     @RequestMapping("/month_8")
     public String month_8() {
         return "month_8";
@@ -43,26 +41,17 @@ public class PrintController {
         return "month_10";
     }
 
-    @PostMapping("/preview")
-    public String viewPreview(@RequestParam String month, Model model){
+    @ResponseBody
+    @RequestMapping("/save-url")
+    public void saveUrl(@RequestParam("previewUrl") String preview){
+        System.out.println(preview);
+        tempUrl = preview;
+    }
 
-        PrintRequest print = new PrintRequest();
+    @RequestMapping("/preview")
+    public String viewPreview(Model model){
 
-        String extendIn = "C:/Users/NAVER/Desktop/prototype/target/classes/static/html/month_" + month + ".html";
-        String extendOut = "C:/Users/NAVER/Desktop/prototype/target/classes/static/images/sample" + month + ".png";
-
-        print.setIn(extendIn);
-        print.setOut(extendOut);
-
-        model.addAttribute("month", month);
-
-        //가로방향 미리보기 이미지
-        converter.createImage(print,0);
-
-        //세로방향 미리보기 이미지 생성해둠
-        String tempExtendOut = "C:/Users/NAVER/Desktop/prototype/target/classes/static/images/sample_vertical"+month+".png";
-        print.setOut(tempExtendOut);
-        converter.createImage(print,1);
+        model.addAttribute("previewurl", tempUrl);
 
         return "preview";
     }
