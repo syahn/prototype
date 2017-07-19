@@ -11,10 +11,10 @@ var startMonth, endMonth, orientation = 1;
 
 $(document).ready(function() {
 
-    /*<![CDATA[*/
-    startOption.options[[[${month}]]].selected = true;
-    endOption.options[[[${month}]]].selected = true;
-    /*]]>*/
+    //select option 메인 페이지 달로 초기화
+    $("#start_month").val($('#monthPreview').attr("value"));
+    $("#end_month").val($('#monthPreview').attr("value"));
+    initialStartMonth = startOption.options[startOption.selectedIndex].value;
 
     $("._close").click(function () {
         window.close();
@@ -118,16 +118,21 @@ function change() {
     if (initialStartMonth !== startMonth) {
         console.log("change!");
         initialStartMonth = startMonth;
-        $.post("http://localhost:8080/preview",
-            { "month": startMonth.toString() }
-        ).done(function(){
-            orientation = landscape.checked ? 1 : 0;
-            if(orientation==0) {
-                $("#previewImage").attr({"src":"/images/sample_vertical"+startMonth+".png","style":"width: 180px; height: 250px;"});
-            }else{
-                $("#previewImage").attr({"src":"/images/sample" + startMonth + ".png","style":"height: 252px; width: 343px;"});
-            }
-        });
+
+        //html2canvas활용한 프리뷰 이미지
+        takeScreenShot(initialStartMonth);
+
+
+        // $.post("http://localhost:8080/preview",
+        //     { "month": startMonth.toString() }
+        // ).done(function(){
+        //     orientation = landscape.checked ? 1 : 0;
+        //     if(orientation==0) {
+        //         $("#previewImage").attr({"src":"/images/sample_vertical"+startMonth+".png","style":"width: 180px; height: 250px;"});
+        //     }else{
+        //         $("#previewImage").attr({"src":"/images/sample" + startMonth + ".png","style":"height: 252px; width: 343px;"});
+        //     }
+        // });
     }
 
 }
@@ -144,4 +149,36 @@ function checkBox() {
     }else{
         $("#previewImage").attr({"src":"/images/sample" + initialStartMonth + ".png","style":"height: 252px; width: 343px;"});
     }
+}
+
+function takeScreenShot(month){
+
+    if(document.getElementById("hiddenFrame") !=null){
+        var elem = document.getElementById("hiddenFrame");
+        elem.parentNode.removeChild(elem);
+    }
+
+    var hiddenFrame = document.createElement("iframe");
+    hiddenFrame.setAttribute("id","hiddenFrame");
+    hiddenFrame.setAttribute("width","1000");
+    hiddenFrame.setAttribute("height","1000");
+    hiddenFrame.style.marginTop="100px";
+    document.body.appendChild(hiddenFrame);
+
+    var url = "html/month_"+month+".html";
+    $("#hiddenFrame").attr("src", url);
+
+    html2canvas(document.getElementById("hiddenFrame"), {
+        onrendered: function(canvas) {
+
+            //이미지
+            var dataUrl =canvas.toDataURL();
+            $("#previewImage").attr({"src":dataUrl,"style":"width: 343px; height:260px;"});
+
+        },
+        width:1000,
+        height:1000
+    });
+    hiddenFrame.style.visibility="hidden";
+
 }
